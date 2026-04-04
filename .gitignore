@@ -1,0 +1,9 @@
+# Environment
+.direnv
+.envrc
+
+# Build artifacts
+build/
+
+# Binaries
+ft_ls
