@@ -28,6 +28,8 @@
               gdb
               bear
               bash
+              entr
+              norminette
             ];
             hardeningDisable = [ "all" ];
           };
