@@ -29,4 +29,7 @@ fclean: clean
 
 re: fclean all
 
+watch:
+	find $(src_dir) $(include_dir) -type f | entr -cp scripts/update_header_and_recompile.sh /_
+
 .PHONY: all clean fclean re
