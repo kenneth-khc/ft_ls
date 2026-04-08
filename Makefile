@@ -44,6 +44,10 @@ fclean: clean
 re: fclean all
 
 watch:
-	find $(src_dir) $(include_dir) -type f | entr -cp scripts/update_header_and_recompile.sh /_
+	trap "exit" INT; \
+	while true; do \
+		find $(src_dir) $(include_dir) -type f \
+	  | entr -cdp scripts/update_header_and_recompile.sh /_ ; \
+	done
 
 .PHONY: all clean fclean re
