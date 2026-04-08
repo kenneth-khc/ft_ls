@@ -10,16 +10,30 @@ srcs := $(src_dir)/main.c
 build_dir := build
 objs := $(srcs:$(src_dir)/%.c=$(build_dir)/%.o)
 
+libft_dir := libft
+libft := $(libft_dir)/libft.a
+
+CPPFLAGS := -I $(libft_dir)/includes -I $(include_dir)
+LDFLAGS := -L $(libft_dir)
+LDLIBS := -lft
+
 all: $(NAME)
 
-$(NAME): $(objs)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(objs) -o $(NAME)
+$(NAME): $(libft) $(objs)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(objs) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(build_dir):
 	mkdir -p $@
 
 $(build_dir)/%.o: $(src_dir)/%.c | $(build_dir)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -c -o $@
+
+$(libft):
+	@if git submodule status | grep '^[+-]' ; then \
+		printf "Initializing libft submodule...\n" ; \
+		git submodule update --init ; \
+	fi
+	@$(MAKE) -C $(libft_dir)
 
 clean:
 	$(RM) $(objs)
