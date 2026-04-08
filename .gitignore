@@ -4,6 +4,13 @@
 
 # Build artifacts
 build/
+compile_commands.json
 
 # Binaries
 ft_ls
+
+# Caches
+.cache
+
+# Local testing
+test_dir
