@@ -6,11 +6,12 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:38:53 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/09 18:38:53 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:31:02 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "options/options.h"
+#include "filepaths.h"
 #include "libft.h"
 #include "ft_printf.h"
 
@@ -64,7 +65,8 @@ void	parse_short_option(const char *arg, struct s_options *options)
 	}
 }
 
-char	*parse_args(char **argv, struct s_options *options)
+char	*parse_args(char **argv, struct s_options *options,
+				struct s_filepaths *filepaths)
 {
 	while (*argv != NULL)
 	{
@@ -78,7 +80,7 @@ char	*parse_args(char **argv, struct s_options *options)
 		}
 		else
 		{
-			// add this arg to the list of paths
+			add_filepath(filepaths, *argv);
 		}
 		argv++;
 	}

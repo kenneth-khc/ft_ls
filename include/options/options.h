@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 23:22:57 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/09 00:11:55 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:21:45 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <stdbool.h>
+# include "../filepaths.h"
 
 struct s_option
 {
@@ -30,7 +31,8 @@ struct s_options
 };
 
 struct s_options	init_program_options(void);
-char				*parse_args(char **argv, struct s_options *options);
+char				*parse_args(char **argv, struct s_options *options,
+						struct s_filepaths *filepaths);
 
 // Debug
 void				pretty_print_options(const struct s_options *opts);

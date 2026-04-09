@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   filepaths.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 23:48:22 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/09 21:36:53 by kecheong         ###   ########.fr       */
+/*   Created: 2026/04/09 21:12:02 by kecheong          #+#    #+#             */
+/*   Updated: 2026/04/09 21:28:03 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "options/options.h"
-#include "filepaths.h"
+#ifndef FILEPATHS_H
+# define FILEPATHS_H
 
-int	main(int argc, char **argv)
+# include <stddef.h>
+
+struct s_filepath
 {
-	struct s_options	options;
-	struct s_filepaths	filepaths = {0};
+	char	*str;
+};
 
-	options = init_program_options();
-	parse_args(++argv, &options, &filepaths);
-}
+struct s_filepaths
+{
+	struct s_filepath	*arr;
+	size_t				num_filepaths;
+};
+
+void	add_filepath(struct s_filepaths *filepaths, char *arg);
+
+#endif
