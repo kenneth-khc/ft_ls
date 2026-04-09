@@ -7,7 +7,8 @@ include_dir := include
 src_dir := src
 srcs := $(src_dir)/main.c \
 		$(src_dir)/options/init.c \
-		$(src_dir)/options/parse.c
+		$(src_dir)/options/parse.c \
+		$(src_dir)/filepaths.c
 
 build_dir := build
 build_dirs := build build/options
