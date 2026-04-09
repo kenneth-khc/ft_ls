@@ -17,4 +17,5 @@ int	main(int argc, char **argv)
 	struct s_options	options;
 
 	options = init_program_options();
+	parse_args(++argv, &options);
 }
