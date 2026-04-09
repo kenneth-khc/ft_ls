@@ -5,9 +5,12 @@ CC := clang
 include_dir := include
 
 src_dir := src
-srcs := $(src_dir)/main.c
+srcs := $(src_dir)/main.c \
+		$(src_dir)/options/init.c \
+		$(src_dir)/options/parse.c
 
 build_dir := build
+build_dirs := build build/options
 objs := $(srcs:$(src_dir)/%.c=$(build_dir)/%.o)
 
 libft_dir := libft
@@ -23,7 +26,7 @@ $(NAME): $(libft) $(objs)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(objs) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(build_dir):
-	mkdir -p $@
+	mkdir -p $(build_dirs)
 
 $(build_dir)/%.o: $(src_dir)/%.c | $(build_dir)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -c -o $@
@@ -36,7 +39,7 @@ $(libft):
 	@$(MAKE) -C $(libft_dir)
 
 clean:
-	$(RM) $(objs)
+	$(RM) -r $(build_dirs)
 
 fclean: clean
 	$(RM) $(NAME)
