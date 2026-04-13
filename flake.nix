@@ -30,6 +30,7 @@
               bash
               entr
               norminette
+              valgrind
             ];
             hardeningDisable = [ "all" ];
           };
