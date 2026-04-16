@@ -6,10 +6,11 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:38:53 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/09 21:31:02 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/15 17:56:22 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_vec.h"
 #include "options/options.h"
 #include "filepaths.h"
 #include "libft.h"
@@ -17,7 +18,7 @@
 
 void	parse_long_option(char *arg, struct s_options *options)
 {
-	int				i;
+	size_t			i;
 	struct s_option	*opt;
 
 	i = 0;
@@ -39,7 +40,7 @@ void	parse_long_option(char *arg, struct s_options *options)
 
 void	parse_short_option(const char *arg, struct s_options *options)
 {
-	int				i;
+	size_t			i;
 	bool			is_valid_option;
 	struct s_option	*opt;
 
@@ -65,9 +66,15 @@ void	parse_short_option(const char *arg, struct s_options *options)
 	}
 }
 
-char	*parse_args(char **argv, struct s_options *options,
-				struct s_filepaths *filepaths)
+struct s_filepath  *parse_args(char **argv, struct s_options *options)
 {
+	struct s_filepath	*vec;
+
+	vec = ft_vec_init(sizeof (struct s_filepath));
+	if (vec == NULL)
+	{
+		ft_panic(1, "oops~\n");
+	}
 	while (*argv != NULL)
 	{
 		if (ft_str_startswith(*argv, "--"))
@@ -80,16 +87,16 @@ char	*parse_args(char **argv, struct s_options *options,
 		}
 		else
 		{
-			add_filepath(filepaths, *argv);
+			vec = ft_vec_append(vec, &(struct s_filepath){.str = *argv});
 		}
 		argv++;
 	}
-	return (NULL);
+	return (vec);
 }
 
 void	pretty_print_options(const struct s_options *opts)
 {
-	int						i;
+	size_t					i;
 	const struct s_option	*opt;
 
 	i = 0;
