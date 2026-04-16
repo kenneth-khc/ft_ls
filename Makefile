@@ -8,7 +8,12 @@ src_dir := src
 srcs := $(src_dir)/main.c \
 		$(src_dir)/options/init.c \
 		$(src_dir)/options/parse.c \
-		$(src_dir)/filepaths.c
+		$(src_dir)/filepaths.c \
+		$(src_dir)/stat_utils.c \
+		$(src_dir)/entry.c \
+		$(src_dir)/directory.c \
+		$(src_dir)/sort.c \
+		$(src_dir)/output.c
 
 build_dir := build
 build_dirs := build build/options
@@ -18,6 +23,7 @@ libft_dir := libft
 libft := $(libft_dir)/libft.a
 
 CPPFLAGS := -I $(libft_dir)/includes -I $(include_dir)
+CFLAGS := -Wall -Werror -Wextra -g3
 LDFLAGS := -L $(libft_dir)
 LDLIBS := -lft
 
