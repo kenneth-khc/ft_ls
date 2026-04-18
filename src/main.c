@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 23:48:22 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/16 22:41:19 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/18 17:47:39 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,7 @@ int	main(int argc, char **argv)
 	directories = ft_vec_init(sizeof *directories);
 	get_entries(filepaths, &options, &files, &directories);
 	files = sort_alphabetically_inefficiently(files);
-	if (ft_vec_len(files) > 0)
-	{
-		output_files(files);
-	}
-	directories = sort_alphabetically_inefficiently(directories);
-	if (ft_vec_len(directories) > 0)
-	{
-		output_directories(directories);
-	}
+	print_output(files, directories);
 
 	ft_vec_free(filepaths);
 	ft_vec_free(files);
