@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 23:22:57 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/13 17:54:23 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:29:47 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ struct s_options
 
 struct s_options	init_program_options(void);
 struct s_filepath	*parse_args(char **argv, struct s_options *options);
+bool				is_option_enabled(const struct s_options *options,
+						const char *short_opt);
 
 // Debug
 void				pretty_print_options(const struct s_options *opts);

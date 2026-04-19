@@ -6,11 +6,12 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 23:28:07 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/09 19:30:18 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:31:57 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "options/options.h"
+#include "libft.h"
 
 struct s_option	make_option(const char *short_opt, const char *long_opt)
 {
@@ -33,4 +34,23 @@ struct s_options	init_program_options(void)
 	options.opts[4] = make_option("t", "t");
 	options.num_opts = 5;
 	return (options);
+}
+
+bool	is_option_enabled(const struct s_options *options,
+						const char *short_opt)
+{
+	size_t		i;
+	const char	*short_name;
+
+	i = 0;
+	while (i < options->num_opts)
+	{
+		short_name = options->opts[i].short_name;
+		if (ft_strcmp(short_name, short_opt) == 0)
+		{
+			return (options->opts[i].is_on);
+		}
+		i++;
+	}
+	return (false);
 }
