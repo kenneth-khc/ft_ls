@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 20:26:29 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/16 22:16:45 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/19 23:21:57 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct s_entry
 {
-	const char	*name;
+	char		*name;
 	struct stat	statbuf;
 }	t_entry;
 
