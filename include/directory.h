@@ -6,13 +6,16 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 22:09:05 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/16 22:16:10 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/19 20:59:45 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DIRECTORY_H
 # define DIRECTORY_H
 
+# include <sys/types.h>
+
 struct s_entry	*read_directory(const struct s_entry *directory);
+blkcnt_t		count_blocks_allocated(const struct s_entry *files);
 
 #endif

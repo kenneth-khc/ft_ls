@@ -42,3 +42,28 @@ struct s_entry *read_directory(const struct s_entry *directory)
 	}
 	return (files);
 }
+
+/*
+	POSIX specifies a block to be 512-byte units, identical to what is
+	returned in stat.st_blocks, but GNU uses 1024-byte units, therefore
+	we have to sum up stat.st_blocks and divide by 2 to match GNU's output
+*/
+// TODO(kecheong): this could be accumulated as we stat() through our entries
+// instead of taking another pass through it afterwards
+blkcnt_t	count_blocks_allocated(const struct s_entry *files)
+{
+	size_t					i;
+	blkcnt_t				total_blocks;
+	const struct s_entry	*file;
+
+	i = 0;
+	total_blocks = 0;
+	while (i < ft_vec_len(files))
+	{
+		file = &files[i];
+		total_blocks += file->statbuf.st_blocks;
+		i++;
+	}
+	total_blocks /= 2;
+	return (total_blocks);
+}
