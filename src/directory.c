@@ -6,15 +6,26 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 22:09:34 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/16 22:10:16 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/20 22:08:02 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "entry.h"
 #include "ft_vec.h"
 #include "libft.h"
+#include "utils.h"
 #include <stdio.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <stdlib.h>
+
+void	free_entry(void *entry)
+{
+	struct s_entry	*file;
+
+	file = (struct s_entry *)entry;
+	free(file->name);
+}
 
 struct s_entry *read_directory(const struct s_entry *directory)
 {
@@ -22,8 +33,10 @@ struct s_entry *read_directory(const struct s_entry *directory)
 	struct s_entry	file;
 	DIR				*dir;
 	struct dirent	*dir_ent;
+	char			*abs_filepath;
 
 	files = ft_vec_init(sizeof (*files));
+	ft_vec_set_destructor(files, free_entry);
 	dir = opendir(directory->name);
 	if (dir == NULL)
 	{
@@ -33,13 +46,20 @@ struct s_entry *read_directory(const struct s_entry *directory)
 	dir_ent = readdir(dir);
 	while (dir_ent != NULL)
 	{
+		abs_filepath = ft_strjoin_multiple(3, directory->name, "/", dir_ent->d_name);
 		if (!ft_str_startswith(dir_ent->d_name, "."))
 		{
 			file.name = ft_strdup(dir_ent->d_name);
+			if (stat(abs_filepath, &file.statbuf) == -1)
+			{
+				handle_stat_errors(abs_filepath);
+			}
 			files = ft_vec_append(files, &file);
 		}
+		free(abs_filepath);
 		dir_ent = readdir(dir);
 	}
+	closedir(dir);
 	return (files);
 }
 
