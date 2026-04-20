@@ -8,15 +8,17 @@ src_dir := src
 srcs := $(src_dir)/main.c \
 		$(src_dir)/options/init.c \
 		$(src_dir)/options/parse.c \
-		$(src_dir)/filepaths.c \
 		$(src_dir)/stat_utils.c \
 		$(src_dir)/entry.c \
 		$(src_dir)/directory.c \
 		$(src_dir)/sort.c \
-		$(src_dir)/output.c
+		$(src_dir)/output/output.c \
+		$(src_dir)/output/output_files.c \
+		$(src_dir)/output/output_directories.c \
+		$(src_dir)/output/format_long_listing.c
 
 build_dir := build
-build_dirs := build build/options
+build_dirs := build build/options build/output
 objs := $(srcs:$(src_dir)/%.c=$(build_dir)/%.o)
 
 libft_dir := libft
