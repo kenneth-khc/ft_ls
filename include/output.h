@@ -19,4 +19,11 @@ void	print_output(struct s_entry *files, struct s_entry *dirs);
 void	output_files(const struct s_entry *entries);
 void	output_directories(const struct s_entry *entries, bool have_files);
 
+/* Long listing formatting */
+
+char		*stringify_file_mode(mode_t mode);
+char		*get_datetime(struct timespec ts);
+const char	*get_user_name(uid_t uid);
+const char	*get_group_name(gid_t gid);
+
 #endif
