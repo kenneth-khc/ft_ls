@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 23:48:22 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/22 20:14:23 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/22 20:30:10 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <errno.h>
-#include <time.h>
 #include "entry.h"
-#include "sort.h"
 #include "output.h"
 
 int	main(int argc, char **argv)
@@ -41,7 +39,6 @@ int	main(int argc, char **argv)
 	files = ft_vec_init(sizeof *files);
 	directories = ft_vec_init(sizeof *directories);
 	get_entries(filepaths, &options, &files, &directories);
-	files = sort_alphabetically_inefficiently(files);
 	print_output(&options, files, directories);
 
 	ft_vec_free(filepaths);
