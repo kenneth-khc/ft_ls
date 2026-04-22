@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 23:48:22 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/18 18:30:34 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/22 20:14:23 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,13 @@ int	main(int argc, char **argv)
 	struct s_entry		*files;
 	struct s_entry		*directories;
 
+	(void)argc;
 	errno = 0;
 	options = init_program_options();
-	if (argc == 1)
+	filepaths = parse_args(++argv, &options);
+	if (ft_vec_len(filepaths) == 0)
 	{
-		filepaths = parse_args((char*[]){".", NULL}, &options);
-	}
-	else
-	{
-		filepaths = parse_args(++argv, &options);
+		filepaths = ft_vec_append(filepaths, &(struct s_filepath){.str = "."});
 	}
 
 	files = ft_vec_init(sizeof *files);
