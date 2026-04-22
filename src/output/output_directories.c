@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 20:17:03 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/19 23:13:16 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/22 20:25:38 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	output_directories(const struct s_entry *entries, bool have_files,
 	}
 	if (num_dirs == 1)
 	{
-		files = read_directory(&entries[0]);
+		files = read_directory(&entries[0], options);
 		files = sort_alphabetically_inefficiently(files);
 		if (have_files)
 		{
@@ -46,7 +46,7 @@ void	output_directories(const struct s_entry *entries, bool have_files,
 	{
 		while (i < num_dirs)
 		{
-			files = read_directory(&entries[i]);
+			files = read_directory(&entries[i], options);
 			sort_alphabetically_inefficiently(files);
 			ft_printf("%s:\n", entries[i].name);
 			output_files(files, options);
@@ -74,7 +74,7 @@ void	output_directories_long_listing(struct s_entry *directories,
 	}
 	if (num_dirs == 1)
 	{
-		files = read_directory(&directories[0]);
+		files = read_directory(&directories[0], options);
 		files = sort_alphabetically_inefficiently(files);
 		if (have_files)
 		{
@@ -89,7 +89,7 @@ void	output_directories_long_listing(struct s_entry *directories,
 		i = 0;
 		while (i < num_dirs)
 		{
-			files = read_directory(&directories[i]);
+			files = read_directory(&directories[i], options);
 			files = sort_alphabetically_inefficiently(files);
 			ft_printf("%s:\n", directories[i].name);
 			ft_printf("total %u\n", count_blocks_allocated(files));
