@@ -31,6 +31,7 @@
               entr
               norminette
               valgrind
+              python313
             ];
             hardeningDisable = [ "all" ];
           };
