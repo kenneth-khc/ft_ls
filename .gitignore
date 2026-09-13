@@ -11,6 +11,7 @@ ft_ls
 
 # Caches
 .cache
+__pycache__
 
 # Local testing
 test_dir
