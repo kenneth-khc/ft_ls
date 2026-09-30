@@ -15,7 +15,9 @@ srcs := $(src_dir)/main.c \
 		$(src_dir)/output/output.c \
 		$(src_dir)/output/output_files.c \
 		$(src_dir)/output/output_directories.c \
-		$(src_dir)/output/format_long_listing.c
+		$(src_dir)/columns.c \
+		$(src_dir)/output/format_long_listing.c \
+		$(src_dir)/printer.c
 
 build_dir := build
 build_dirs := build build/options build/output
@@ -27,7 +29,7 @@ libft := $(libft_dir)/libft.a
 CPPFLAGS := -I $(libft_dir)/includes -I $(include_dir)
 CFLAGS := -Wall -Werror -Wextra -g3
 LDFLAGS := -L $(libft_dir)
-LDLIBS := -lft
+LDLIBS := -lft -lm
 
 all: $(NAME)
 

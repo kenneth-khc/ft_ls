@@ -5,6 +5,7 @@
 # Build artifacts
 build/
 compile_commands.json
+generated_files
 
 # Binaries
 ft_ls

@@ -1,5 +1,6 @@
 import difflib
 import errno
+import sys
 import fcntl
 import os
 import pty
@@ -8,6 +9,7 @@ import struct
 import subprocess
 import termios
 from pathlib import Path
+from typing import Literal
 
 
 class Tester:
@@ -27,17 +29,26 @@ class Tester:
         my_cmd: str,
         test_files_dir: str,
         visualize_whitespaces: bool = True,
+        cols: int = 86,
+        lines: int = 44,
     ) -> None:
         self.actual_cmd = actual_cmd
         self.my_cmd = my_cmd
         self.test_files_dir = test_files_dir
         self.visualize_whitespaces = visualize_whitespaces
+        self.cols = cols
+        self.lines = lines
 
     def test(self, args: str | list[str] | None = None):
         if isinstance(args, str):
             args = [args]
         expected_output = Tester.run_in_pty(
-            cwd=self.test_files_dir, cmd=self.actual_cmd, args=args
+            cwd=self.test_files_dir,
+            cmd=self.actual_cmd,
+            args=args,
+            cols=self.cols,
+            rows=self.lines,
+            enable_tabs=False,
         )
         expected = (
             Tester.show_ws(expected_output)
@@ -45,7 +56,12 @@ class Tester:
             else expected_output
         )
         actual_output = Tester.run_in_pty(
-            cwd=self.test_files_dir, cmd=self.my_cmd, args=args
+            cwd=self.test_files_dir,
+            cmd=self.my_cmd,
+            args=args,
+            cols=self.cols,
+            rows=self.lines,
+            enable_tabs=True,
         )
         actual = (
             Tester.show_ws(actual_output)
@@ -62,19 +78,17 @@ class Tester:
             if isinstance(args, str):
                 readable_cmd = f"{self.my_cmd} {args}"
             else:
-                readable_cmd = f"{self.my_cmd} {''.join(args)}"
+                readable_cmd = f"{self.my_cmd} {' '.join(args)}"
         else:
             readable_cmd = f"{self.my_cmd}"
 
         if diff_lines := "".join(delta):
-            print(
-                f"{Tester.RED}Test {Tester.test_num} KO{Tester.RESET} ({readable_cmd})"
-            )
+            Tester.color(f"Test {Tester.test_num} KO ", c="RED")
+            print(f"({readable_cmd})")
             print(diff_lines)
         else:
-            print(
-                f"{Tester.GREEN}Test {Tester.test_num} OK{Tester.RESET} ({readable_cmd})"
-            )
+            Tester.color(f"Test {Tester.test_num} OK ", c="GREEN")
+            print(f"({readable_cmd})")
 
         Tester.test_num += 1
 
@@ -90,6 +104,7 @@ class Tester:
         cols: int = 80,
         rows: int = 24,
         timeout: int = 5,
+        enable_tabs: bool = False,
     ):
         master_fd, slave_fd = pty.openpty()
         _ = fcntl.ioctl(
@@ -97,6 +112,8 @@ class Tester:
         )
 
         cmd_args = [cmd] + (args if args else [])
+        if not enable_tabs:
+            cmd_args.insert(1, "-T0")
         proc = subprocess.run(
             cmd_args,
             cwd=cwd,
@@ -163,3 +180,21 @@ class Tester:
             file_path = f"{tmp_dir_name}/file{i}"
             Path(file_path).touch(mode=file_mode)
             os.chmod(file_path, file_mode)
+
+        nested_dir_name = "generated_files/dir1/dir2"
+        Path("generated_files/dir1").mkdir(exist_ok=True)
+        Path(nested_dir_name).mkdir(exist_ok=True)
+        for i in range(10):
+            file_path = f"{nested_dir_name}/file{i}"
+            Path(file_path).touch()
+
+    @staticmethod
+    def color(text: str, c: Literal["GREEN", "RED", "RESET"]):
+        if sys.stdout.isatty():
+            if c == "GREEN":
+                print(f"{Tester.GREEN}{text}{Tester.RESET}", end="")
+            elif c == "RED":
+                print(f"{Tester.RED}{text}{Tester.RESET}", end="")
+        else:
+            print(text, end="")
+

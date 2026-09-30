@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:38:53 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/15 17:56:22 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/09/06 18:23:21 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@ void	parse_long_option(char *arg, struct s_options *options)
 	struct s_option	*opt;
 
 	i = 0;
-	arg++;
-	arg++;
 	while (i < options->num_opts)
 	{
 		opt = &options->opts[i];
-		if (ft_strcmp(arg, opt->long_name) == 0)
+		if (ft_strcmp(arg + 2, opt->long_name) == 0)
 		{
 			opt->is_on = true;
 			return ;

@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 22:10:19 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/20 22:13:44 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/30 18:20:47 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,36 @@
 #include "options/options.h"
 #include "ft_vec.h"
 #include "ft_printf.h"
+#include "printer.h"
 #include <stdlib.h>
 
-void	output_files(const struct s_entry *entries,
-			const struct s_options *options)
+void	print_file_long_listing(const struct s_entry *file)
 {
-	(void)options;
-	size_t	i;
+	const struct stat	*sb;
+	char				*file_mode;
+	char				*datetime;
 
-	i = 0;
-	while (i < ft_vec_len(entries))
-	{
-		ft_printf("%s  ", entries[i].name);
-		i++;
-	}
-	ft_printf("\n");
+	sb = &file->statbuf;
+	file_mode = stringify_file_mode(sb->st_mode);
+	datetime = get_datetime(sb->st_mtim);
+	ft_printf("%s %u %s %s %u %s %s\n",
+			file_mode,
+			file->statbuf.st_nlink,
+			get_user_name(sb->st_uid),
+			get_group_name(sb->st_gid),
+			sb->st_size,
+			datetime,
+			file->name);
+	free(file_mode);
+	free(datetime);
 }
 
 void	output_files_long_listing(const struct s_entry *files,
-							const struct s_options *options)
+							const struct s_options *options,
+								  struct s_printer *printer)
 {
 	(void)options;
+	(void)printer;
 	size_t	i;
 	const struct stat	*sb;
 	char				*file_mode;
@@ -59,4 +68,6 @@ void	output_files_long_listing(const struct s_entry *files,
 		free(datetime);
 		i++;
 	}
+	ft_printf("\n");
+	// require_newline(printer);
 }

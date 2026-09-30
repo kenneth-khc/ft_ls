@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: yosherau <yosherau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 21:00:43 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/22 20:46:13 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/09/30 22:57:54 by yosherau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_vec.h"
 #include "libft.h"
 #include <stddef.h>
+#include <string.h>
 
 struct s_entry	*sort_by_time_inefficiently(struct s_entry *entries)
 {
@@ -85,7 +86,8 @@ struct s_entry	*sort_alphabetically_inefficiently(struct s_entry *entries)
 		{
 			lhs = entries[j];
 			rhs = entries[j+1];
-			if (ft_strcmp(lhs.name, rhs.name) > 0)
+			// if (ft_strcmp(lhs.name, rhs.name) > 0)
+			if (strcoll(lhs.name, rhs.name) > 0)
 			{
 				entries[j+1] = lhs;
 				entries[j] = rhs;

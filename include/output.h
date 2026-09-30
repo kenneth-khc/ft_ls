@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 22:11:09 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/20 22:13:39 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/04/30 18:20:56 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,29 @@
 # define OUTPUT_H
 
 # include "entry.h"
+# include "printer.h"
 
 void	print_output(const struct s_options *options,
 			struct s_entry *files, struct s_entry *dirs);
-void	output_files(const struct s_entry *entries,
-			const struct s_options *options);
+void	print_files(struct s_entry *files,
+					const struct s_options *options,
+					struct s_printer *printer);
 void	output_files_long_listing(const struct s_entry *entries,
-							const struct s_options *options);
+								  const struct s_options *options,
+								  struct s_printer *printer);
 void	output_directories(const struct s_entry *entries, bool have_files,
-			const struct s_options *options);
+						   const struct s_options *options,
+						   struct s_printer *printer);
 void	output_directories_long_listing(struct s_entry *directories,
-									bool have_files,
-									const struct s_options *options);
+										bool have_files,
+										const struct s_options *options,
+										struct s_printer *printer);
+void	output_directory(struct s_entry *directory,
+						 const struct s_options *options,
+						 struct s_printer *printer);
+void	output_directory_long_listing(struct s_entry *directory,
+									  const struct s_options *options,
+									  struct s_printer *printer);
 
 /* Long listing formatting */
 

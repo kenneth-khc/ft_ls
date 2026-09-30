@@ -6,7 +6,7 @@
 /*   By: kecheong <kecheong@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 20:17:03 by kecheong          #+#    #+#             */
-/*   Updated: 2026/04/23 19:34:42 by kecheong         ###   ########.fr       */
+/*   Updated: 2026/09/30 20:21:36 by kecheong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,110 +16,50 @@
 #include "entry.h"
 #include "options/options.h"
 #include "output.h"
+#include "printer.h"
 #include "sort.h"
-#include <stdio.h>
 
-void	output_directories(const struct s_entry *entries, bool have_files,
-			const struct s_options *options)
+void	output_directory(struct s_entry *directory,
+						 const struct s_options *options,
+						 struct s_printer *printer)
 {
-	size_t			i;
-	const size_t	num_dirs = ft_vec_len(entries);
-	bool			want_reversed = is_option_enabled(options, "r");
 	struct s_entry	*files;
 	const t_sorter	sort = pick_sorting_algorithm(options);
+	bool			want_reversed = is_option_enabled(options, "r");
 
-	i = 0;
-	if (have_files)
+	files = read_directory(directory, options);
+	sort(files);
+	if (want_reversed)
 	{
-		ft_printf("\n");
+		ft_vec_reverse(files);
 	}
-	if (num_dirs == 1)
-	{
-		files = read_directory(&entries[0], options);
-		sort(files);
-		if (want_reversed)
-		{
-			ft_vec_reverse(files);
-		}
-		if (have_files)
-		{
-			ft_printf("%s:\n", entries[0].name);
-		}
-		output_files(files, options);
-		ft_vec_free(files);
-	}
-	else
-	{
-		while (i < num_dirs)
-		{
-			files = read_directory(&entries[i], options);
-			sort(files);
-			if (want_reversed)
-			{
-				ft_vec_reverse(files);
-			}
-			ft_printf("%s:\n", entries[i].name);
-			output_files(files, options);
-			if (i != num_dirs - 1)
-			{
-				ft_printf("\n");
-			}
-			ft_vec_free(files);
-			i++;
-		}
-	}
+	// maybe_print_newline(printer);
+	// maybe_print_directory_prefix(printer, directory->name);
+	// output_files(files, options, printer);
+	print_directory(printer, directory, files);
+	ft_vec_free(files);
+	// ft_printf("\n");
+	// require_newline(printer);
 }
 
-void	output_directories_long_listing(struct s_entry *directories,
-									bool have_files,
-									const struct s_options *options)
+void	output_directory_long_listing(struct s_entry *directory,
+									  const struct s_options *options,
+									  struct s_printer *printer)
 {
-	const size_t	num_dirs = ft_vec_len(directories);
 	struct s_entry	*files;
-	size_t			i;
 	const t_sorter	sort = pick_sorting_algorithm(options);
-	bool			want_reversed = is_option_enabled(options, "r");
+	const bool		want_reversed = is_option_enabled(options, "r");
 
-	if (have_files)
+	files = read_directory(directory, options);
+	sort(files);
+	if (want_reversed)
 	{
-		ft_printf("\n");
+		ft_vec_reverse(files);
 	}
-	if (num_dirs == 1)
-	{
-		files = read_directory(&directories[0], options);
-		files = sort(files);
-		if (want_reversed)
-		{
-			ft_vec_reverse(files);
-		}
-		if (have_files)
-		{
-			ft_printf("%s:\n", directories[0].name);
-		}
-		ft_printf("total %u\n", count_blocks_allocated(files));
-		output_files_long_listing(files, options);
-		ft_vec_free(files);
-	}
-	else
-	{
-		i = 0;
-		while (i < num_dirs)
-		{
-			files = read_directory(&directories[i], options);
-			files = sort(files);
-			if (want_reversed)
-			{
-				ft_vec_reverse(files);
-			}
-			ft_printf("%s:\n", directories[i].name);
-			ft_printf("total %u\n", count_blocks_allocated(files));
-			output_files_long_listing(files, options);
-			if (i != num_dirs - 1)
-			{
-				ft_printf("\n");
-			}
-			ft_vec_free(files);
-			i++;
-		}
-	}
+	maybe_print_newline(printer);
+	maybe_print_directory_prefix(printer, directory->name);
+	ft_printf("total %u\n", count_blocks_allocated(files));
+	output_files_long_listing(files, options, printer);
+	// ft_printf("\n");
+	ft_vec_free(files);
 }
